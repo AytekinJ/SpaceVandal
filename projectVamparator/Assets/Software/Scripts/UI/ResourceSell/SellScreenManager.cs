@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class SellScreenManager : MonoBehaviour
 {
+    private bool SellScreenOpen = false;
     public void SellButtonClicked()
     {
 
     }
-    void Start()
+    public void SellScreenTriggerClicked()
     {
-        
-    }
 
-    void Update()
-    {
-        
     }
+    
 }

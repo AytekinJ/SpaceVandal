@@ -3,12 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class DataSend : MonoBehaviour
+namespace SpaceVandal.Data
 {
-    StreamWriter dataWriter;
-    string filePath = "userData.txt";
-    public Dictionary<string,int> resourceDataSend()
+    public class DataSend : MonoBehaviour
     {
-        return null;
+
+        StreamWriter dataWriter;
+        string filePath = "userData_Resources.txt";
+        public void resourceDataSend(Dictionary<string, int> data,bool overwrite)
+        {
+            using (StreamWriter dataWriter = new StreamWriter(filePath,true))
+            {
+                if (!overwrite)
+                {
+                    File.WriteAllText(filePath,"");
+                }
+                foreach (var item in data)
+                {
+                    dataWriter.WriteLine(item.Key);
+                    dataWriter.WriteLine(item.Value);
+                }
+            }
+        }
+
     }
 }
