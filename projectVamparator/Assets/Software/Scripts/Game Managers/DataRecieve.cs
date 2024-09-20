@@ -8,11 +8,16 @@ using UnityEngine;
 
 namespace SpaceVandal.Data
 {
-    public class DataRecieve : MonoBehaviour
+    public class DataRecieve
     {
-        private string filePath = "userData_Resources.txt";
+        string filePath = "userData_Resources.txt";
         public Dictionary<string,int> resourceDataRecieve()
         {
+            if (!File.Exists(filePath))
+            {
+                // Dosya yoksa oluþtur
+                File.Create(filePath).Close(); // Dosyayý oluþtur ve hemen kapat
+            }
             Dictionary<string,int> dataToRecieve = new Dictionary<string,int>();
             using (StreamReader dataReader = new StreamReader(filePath))
             {
@@ -25,6 +30,11 @@ namespace SpaceVandal.Data
         }
         public string resourceDataRecieve(string key)
         {
+            if (!File.Exists(filePath))
+            {
+                // Dosya yoksa oluþtur
+                File.Create(filePath).Close(); // Dosyayý oluþtur ve hemen kapat
+            }
             string data = "";
             using (StreamReader dataReader = new StreamReader(filePath))
             {
@@ -41,55 +51,5 @@ namespace SpaceVandal.Data
 
             return data;
         }
-        public void resourceDataChange(string key,string process,int number)
-        {
-            byte keyIndex = 0;
-            byte counter = 0;
-            int oldValue = 0;
-            string[] data = File.ReadAllLines(filePath);
-            bool keyFounded = false;
-            
-            using (StreamReader dataReader = new StreamReader(filePath, true))
-            {
-
-                while (!dataReader.EndOfStream)
-                {
-                    if (dataReader.ReadLine() == key)
-                    {
-                        keyFounded = true;
-                        keyIndex = counter;
-                        break;
-                    }
-                    counter++;
-                }
-                if (!keyFounded)
-                {
-                    Debug.Log("Aranan deðer anahtarý bulunamadý.");
-                }
-            }
-            oldValue = int.Parse(data[keyIndex+1]);
-            if (process == "Addition")
-            {
-                data[keyIndex+1] = (oldValue + number).ToString();
-            }
-            if (process == "Subtraction")
-            {
-                if ((oldValue-number)<0)
-                {
-                    Debug.Log("Resource deðerleri 0 dan küçük olamaz !");
-                }
-                else
-                {
-                    data[keyIndex + 1] = (oldValue - number).ToString();
-                }
-            }
-        }
-
     }
 }
-//string content = File.ReadAllText(filePath);
-
-// 2. Eski deðeri bul ve yeni deðerle deðiþtir
-//string oldValue = "eski_deger";
-//string newValue = "yeni_deger";
-//string newContent = content.Replace(oldValue, newValue);
