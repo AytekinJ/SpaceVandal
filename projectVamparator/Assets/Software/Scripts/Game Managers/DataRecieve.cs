@@ -31,7 +31,6 @@ namespace SpaceVandal.Data
                 while (!dataReader.EndOfStream)
                 {
                     string line = dataReader.ReadLine();
-
                     if (line == key)
                     {
                         data = line;
