@@ -14,35 +14,36 @@ public class ResourceManager : MonoBehaviour
     DataRecieve dr;
     FileInfo fi;
     string filePath = "userData_Resources.txt";
+    Dictionary<string, int> resourceData = new Dictionary<string, int>();
+    [SerializeField] TMP_Text woodAmount;
+    [SerializeField] TMP_Text ironAmount;
     private void Start()
     {
         ds = new DataSend();
         dr = new DataRecieve();
         fi = new FileInfo(filePath);
+        woodAmount.text = dr.resourceDataRecieve("Wood") + "/0";
+        ironAmount.text = dr.resourceDataRecieve("Iron") + "/0";
     }
-
-    Dictionary<string, int> resourceData = new Dictionary<string, int>();
-    [SerializeField] TMP_Text woodAmount;
-    [SerializeField] TMP_Text ironAmount;
     public void AddResource()
     {
         if (!File.Exists(filePath))
         {
-            // Dosya yoksa oluþtur
-            File.Create(filePath).Close(); // Dosyayý oluþtur ve hemen kapat
+            File.Create(filePath).Close();
         }
         if (fi.Length == 0) 
         {
             resourceData.Add("Wood", 10);
             resourceData.Add("Iron", 10);
-            ds.resourceDataSend(resourceData,false);
+            ds.resourceDataSend(resourceData,true);
         }
         else
         {
             ds.resourceDataChange("Wood","Addition",10);
             ds.resourceDataChange("Iron","Addition",10);
         }
-        woodAmount.text = dr.resourceDataRecieve("Wood");
-        ironAmount.text = dr.resourceDataRecieve("Iron");
+
+        woodAmount.text = dr.resourceDataRecieve("Wood") + "/0";
+        ironAmount.text = dr.resourceDataRecieve("Iron") + "/0";
     }
 }

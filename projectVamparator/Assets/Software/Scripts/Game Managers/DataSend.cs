@@ -11,11 +11,7 @@ namespace SpaceVandal.Data
         string filePath = "userData_Resources.txt";
         public void resourceDataSend(Dictionary<string, int> data,bool overwrite)
         {
-            if (!File.Exists(filePath))
-            {
-                // Dosya yoksa oluþtur
-                File.Create(filePath).Close(); // Dosyayý oluþtur ve hemen kapat
-            }
+
             using (StreamWriter dataWriter = new StreamWriter(filePath,true))
             {
                 if (!overwrite)
@@ -32,11 +28,7 @@ namespace SpaceVandal.Data
 
         public void resourceDataChange(string key, string process, int number)
         {
-            if (!File.Exists(filePath))
-            {
-                // Dosya yoksa oluþtur
-                File.Create(filePath).Close(); // Dosyayý oluþtur ve hemen kapat
-            }
+
             byte keyIndex = 0;
             byte counter = 0;
             int oldValue = 0;
@@ -77,6 +69,7 @@ namespace SpaceVandal.Data
                     data[keyIndex + 1] = (oldValue - number).ToString();
                 }
             }
+            File.WriteAllLines(filePath, data);
         }
 
     }

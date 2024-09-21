@@ -13,11 +13,7 @@ namespace SpaceVandal.Data
         string filePath = "userData_Resources.txt";
         public Dictionary<string,int> resourceDataRecieve()
         {
-            if (!File.Exists(filePath))
-            {
-                // Dosya yoksa oluþtur
-                File.Create(filePath).Close(); // Dosyayý oluþtur ve hemen kapat
-            }
+
             Dictionary<string,int> dataToRecieve = new Dictionary<string,int>();
             using (StreamReader dataReader = new StreamReader(filePath))
             {
@@ -30,11 +26,6 @@ namespace SpaceVandal.Data
         }
         public string resourceDataRecieve(string key)
         {
-            if (!File.Exists(filePath))
-            {
-                // Dosya yoksa oluþtur
-                File.Create(filePath).Close(); // Dosyayý oluþtur ve hemen kapat
-            }
             string data = "";
             using (StreamReader dataReader = new StreamReader(filePath))
             {
@@ -43,12 +34,11 @@ namespace SpaceVandal.Data
                     string line = dataReader.ReadLine();
                     if (line == key)
                     {
-                        data = line;
+                        data = dataReader.ReadLine();
                         break;
                     }
                 }
             }
-
             return data;
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SellScreenManager : MonoBehaviour
 {
+    [SerializeField] GameObject sellScreen;
     private bool SellScreenOpen = false;
     public void SellButtonClicked()
     {
@@ -11,7 +12,8 @@ public class SellScreenManager : MonoBehaviour
     }
     public void SellScreenTriggerClicked()
     {
-
+        sellScreen.SetActive(!SellScreenOpen);
+        SellScreenOpen = !SellScreenOpen;
     }
     
 }
