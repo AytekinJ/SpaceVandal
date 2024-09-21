@@ -8,6 +8,7 @@ namespace SpaceVandal.Data
 {
     public class DataSend
     {
+        #region Resource
         string filePath = "userData_Resources.txt";
         public void resourceDataSend(Dictionary<string, int> data,bool overwrite)
         {
@@ -71,6 +72,33 @@ namespace SpaceVandal.Data
             }
             File.WriteAllLines(filePath, data);
         }
+        #endregion
+        #region Money
+        string filePathMoney = "userData_Money.txt";
 
+        public void moneyAddDataSend(float amount)
+        {
+            FileInfo fi = new FileInfo(filePathMoney);
+            if (fi.Length == 0)
+            {
+                using (StreamWriter dataWriter = new StreamWriter(filePathMoney))
+                {
+                    dataWriter.Write(amount);
+                }
+            }
+            else
+            {
+                float oldValue = 0;
+                using (StreamReader dataReader = new StreamReader(filePathMoney))
+                {
+                    oldValue = float.Parse(dataReader.ReadLine());
+                }
+                using (StreamWriter dataWriter = new StreamWriter(filePathMoney))
+                {
+                    dataWriter.Write((oldValue + amount).ToString());
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using TMPro;
+using System;
 
 
 public class ResourceManager : MonoBehaviour
@@ -17,13 +18,26 @@ public class ResourceManager : MonoBehaviour
     Dictionary<string, int> resourceData = new Dictionary<string, int>();
     [SerializeField] TMP_Text woodAmount;
     [SerializeField] TMP_Text ironAmount;
+    [SerializeField] TMP_Text moneyAmount;
     private void Start()
     {
         ds = new DataSend();
         dr = new DataRecieve();
         fi = new FileInfo(filePath);
+        ResetAmounts();
+    }
+
+    public void ResetAmounts()
+    {
         woodAmount.text = dr.resourceDataRecieve("Wood") + "/0";
         ironAmount.text = dr.resourceDataRecieve("Iron") + "/0";
+        moneyAmount.text = "Money : " + dr.moneyDataRecieve().ToString();
+    }
+
+    public enum ResourcePrices
+    {
+        Wood = 3,
+        Iron = 5
     }
     public void AddResource()
     {
@@ -45,5 +59,21 @@ public class ResourceManager : MonoBehaviour
 
         woodAmount.text = dr.resourceDataRecieve("Wood") + "/0";
         ironAmount.text = dr.resourceDataRecieve("Iron") + "/0";
+    }
+    public void SellResource()
+    {
+        float money = 0;
+        Dictionary<string, int> data = dr.resourceDataRecieve();
+        foreach (var item in data)
+        {
+            if (Enum.TryParse(item.Key, out ResourcePrices price))
+            {
+                money += item.Value * (int)price;
+                ds.moneyAddDataSend(money);
+            }
+        }
+        ds.resourceDataChange("Wood", "Subtraction", dr.resourceDataRecieve("Wood"));
+        ds.resourceDataChange("Iron", "Subtraction", dr.resourceDataRecieve("Iron"));
+        ResetAmounts();
     }
 }

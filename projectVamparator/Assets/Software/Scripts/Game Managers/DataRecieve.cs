@@ -10,6 +10,7 @@ namespace SpaceVandal.Data
 {
     public class DataRecieve
     {
+        #region Resource
         string filePath = "userData_Resources.txt";
         public Dictionary<string,int> resourceDataRecieve()
         {
@@ -24,7 +25,7 @@ namespace SpaceVandal.Data
             }
             return dataToRecieve;
         }
-        public string resourceDataRecieve(string key)
+        public int resourceDataRecieve(string key)
         {
             string data = "";
             using (StreamReader dataReader = new StreamReader(filePath))
@@ -39,7 +40,20 @@ namespace SpaceVandal.Data
                     }
                 }
             }
-            return data;
+            return int.Parse(data);
         }
+        #endregion
+        #region Money
+        string filePathMoney = "userData_Money.txt";
+        public float moneyDataRecieve()
+        {
+            float dataToRecieve = 0;
+            using (StreamReader dataReader = new StreamReader(filePathMoney))
+            {
+                dataToRecieve = float.Parse(dataReader.ReadLine());
+            }
+            return dataToRecieve;
+        }
+        #endregion
     }
 }
