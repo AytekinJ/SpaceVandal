@@ -26,6 +26,19 @@ namespace SpaceVandal.Data
                 }
             }
         }
+        public void resourceDataSend(string key,int value, bool overwrite)
+        {
+
+            using (StreamWriter dataWriter = new StreamWriter(filePath, true))
+            {
+                if (!overwrite)
+                {
+                    File.WriteAllText(filePath, "");
+                }
+                dataWriter.WriteLine(key);
+                dataWriter.WriteLine(value);
+            }
+        }
 
         public void resourceDataChange(string key, string process, int number)
         {
