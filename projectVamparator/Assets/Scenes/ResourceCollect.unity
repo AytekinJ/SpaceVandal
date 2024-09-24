@@ -340,7 +340,6 @@ GameObject:
   - component: {fileID: 1493305084}
   - component: {fileID: 1493305087}
   - component: {fileID: 1493305086}
-  - component: {fileID: 1493305089}
   - component: {fileID: 1493305088}
   m_Layer: 3
   m_Name: Player
@@ -494,18 +493,6 @@ MonoBehaviour:
   CurrentStorage: 0
   collectSpeed: 0.5
   collectAmount: 1
---- !u!114 &1493305089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493305083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d37ef3f1415db14088837e2b5f2157e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1601657877
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +595,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
+  resourceCount: 5
+  containedResourceTypes: []
+  containedResourceAmounts: 
 --- !u!61 &1601657881
 BoxCollider2D:
   m_ObjectHideFlags: 0
