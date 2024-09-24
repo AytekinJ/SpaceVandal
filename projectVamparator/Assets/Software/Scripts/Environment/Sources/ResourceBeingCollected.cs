@@ -8,14 +8,16 @@ public class ResourceBeingCollected : MonoBehaviour
     [SerializeField] float radius = 5f;
     [SerializeField] LayerMask layerMask;
     private bool isPlayerNearby = false;
-    void Update()
+    void FixedUpdate()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, Vector2.zero, 5f, layerMask);
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.collider.name == "Player")
+            if (hit.collider.name == "Player" && isPlayerNearby == false)
             {
-                isPlayerNearby=true; break;
+                isPlayerNearby=true;
+                StartCoroutine(ResourceCollecting(hit.collider.gameObject));
+                break;
             }
         }
     }
@@ -24,8 +26,21 @@ public class ResourceBeingCollected : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radius);
     }
-    public IEnumerator ResourceCollecting()
+    public IEnumerator ResourceCollecting(GameObject player)
     {
-        return null;
+        while (isPlayerNearby)
+        {
+            if (player.GetComponent<PlayerStorageManager>().CurrentStorage < player.GetComponent<PlayerStorageManager>().maxStorage)
+            {
+                player.GetComponent<PlayerStorageManager>().CurrentStorage += player.GetComponent<PlayerStorageManager>().collectAmount;
+                Debug.Log("1 Resource toplandý.");
+            }
+            else
+            {
+                Debug.Log("Storage dolu.");
+            }
+            yield return new WaitForSeconds(player.GetComponent<PlayerStorageManager>().collectSpeed);
+            isPlayerNearby = false;
+        }
     }
 }
