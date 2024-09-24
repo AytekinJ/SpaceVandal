@@ -8,9 +8,10 @@ public class ResourceBeingCollected : MonoBehaviour
     [SerializeField] float radius = 5f;
     [SerializeField] LayerMask layerMask;
     private bool isPlayerNearby = false;
-    void FixedUpdate()
+    [SerializeField] Dictionary<string,int> resourceType = new Dictionary<string,int>();
+    void FixedUpdate() // casting
     {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, Vector2.zero, 5f, layerMask);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, Vector2.zero, 0f, layerMask);
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider.name == "Player" && isPlayerNearby == false)
@@ -21,12 +22,7 @@ public class ResourceBeingCollected : MonoBehaviour
             }
         }
     }
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radius);
-    }
-    public IEnumerator ResourceCollecting(GameObject player)
+    public IEnumerator ResourceCollecting(GameObject player) // çalýþýyor, verilen saniye baþýnda range içinde resource toplama.
     {
         while (isPlayerNearby)
         {
@@ -43,4 +39,9 @@ public class ResourceBeingCollected : MonoBehaviour
             isPlayerNearby = false;
         }
     }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    } //hell
 }
