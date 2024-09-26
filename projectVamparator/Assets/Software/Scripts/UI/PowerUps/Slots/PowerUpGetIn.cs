@@ -22,6 +22,7 @@ public class PowerUpGetIn : MonoBehaviour
                 snapped = true;
                 collision.gameObject.GetComponent<Dragging>().isInSlot = false;
                 collision.gameObject.GetComponent<Dragging>().originalPosition = transform.position;
+                collision.gameObject.GetComponent<Dragging>().snappedSlot = gameObject.tag;
             }
         }   
     }

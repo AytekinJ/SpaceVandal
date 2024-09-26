@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Dragging : MonoBehaviour
 {
+    public string snappedSlot;
     public Vector3 originalPosition;  // Baþlangýç pozisyonu
     public bool isDragging = false;   // Sürükleniyor mu?
     private Vector3 offset;
