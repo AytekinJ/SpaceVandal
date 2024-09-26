@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Dragging : MonoBehaviour
 {
-    private Vector3 originalPosition;  // Baþlangýç pozisyonu
-    private bool isDragging = false;   // Sürükleniyor mu?
-    private Vector3 offset;            // Fare týklamasý ile obje arasýndaki mesafe
-
+    public Vector3 originalPosition;  // Baþlangýç pozisyonu
+    public bool isDragging = false;   // Sürükleniyor mu?
+    private Vector3 offset;
+    public bool isInSlot = false;
     void Start()
     {
         // Nesnenin baþlangýç pozisyonunu kaydet
@@ -40,7 +40,9 @@ public class Dragging : MonoBehaviour
         // Fareyi býraktýðýnda sürüklemeyi býrak
         isDragging = false;
 
-        // Objeyi orijinal pozisyonuna döndür
-        transform.position = originalPosition;
+        if (!isInSlot)
+        {
+            transform.position = originalPosition;
+        }
     }
 }

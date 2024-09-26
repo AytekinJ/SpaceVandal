@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - 'Resource '
+  - PowerUp
   layers:
   - Default
   - TransparentFX
