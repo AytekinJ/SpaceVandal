@@ -6,6 +6,8 @@ TagManager:
   tags:
   - 'Resource '
   - PowerUp
+  - EquippedSlot
+  - UnequippedSlot
   layers:
   - Default
   - TransparentFX
