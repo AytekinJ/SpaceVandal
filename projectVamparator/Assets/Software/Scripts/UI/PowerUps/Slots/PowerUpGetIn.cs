@@ -27,6 +27,13 @@ public class PowerUpGetIn : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        snapped = false;
+        if (snapped)
+        {
+            snapped = false;
+        }
+        if (collision.gameObject.GetComponent<Dragging>().isInSlot)
+        {
+            collision.gameObject.GetComponent<Dragging>().isInSlot = false;
+        }
     }
 }
