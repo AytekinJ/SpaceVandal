@@ -74,7 +74,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.01
 --- !u!1 &2514266879724841138
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +253,8 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
-  resourceCount: 0
+  resourceBar: {fileID: 6682300642686261140}
+  resourceCount: 15
   containedResourceTypes: []
   containedResourceAmounts: 
 --- !u!61 &1106671193699693728

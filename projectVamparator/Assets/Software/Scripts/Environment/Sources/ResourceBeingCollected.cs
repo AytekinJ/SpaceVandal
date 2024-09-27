@@ -15,7 +15,6 @@ public class ResourceBeingCollected : MonoBehaviour
     [SerializeField] public int resourceCount;
     [SerializeField] string[] containedResourceTypes; // iþlevsiz, konuþulacak
     [SerializeField] int[] containedResourceAmounts; // iþlevsiz, konuþulacak
-    float fillAmount;
     private void Start()
     {
         //for (int i = 0; i < containedResourceTypes.Length; i++)
@@ -23,7 +22,6 @@ public class ResourceBeingCollected : MonoBehaviour
         //    resourceType.Add(containedResourceTypes[i], containedResourceAmounts[i]);
         //}
         //Debug.Log("Resource ayarlamasý tamamlandý, kaynaklar eklendi.");
-        fillAmount = 1 / resourceCount;
     }
     void FixedUpdate() // circle casting
     {
@@ -44,38 +42,42 @@ public class ResourceBeingCollected : MonoBehaviour
         int collectAmount = player.GetComponent<PlayerStorageManager>().collectAmount;
         while (isPlayerNearby)
         {
-            if (player.GetComponent<PlayerStorageManager>().CurrentStorage < player.GetComponent<PlayerStorageManager>().maxStorage)
+            PlayerStorageManager storageManager = player.GetComponent<PlayerStorageManager>();
+
+            if (storageManager.CurrentStorage < storageManager.maxStorage)
             {
+                // Calculate fillAmount only when needed
+                float fillAmount = 1f / resourceCount;
+
                 if (resourceCount > 0)
                 {
-                    if (player.GetComponent<PlayerStorageManager>().CurrentStorage + collectAmount > maxStorage)
+                    if (storageManager.CurrentStorage + collectAmount > storageManager.maxStorage)
                     {
-                        int fillCollect = maxStorage - player.GetComponent<PlayerStorageManager>().CurrentStorage;
-                        player.GetComponent<PlayerStorageManager>().CurrentStorage += fillCollect;
+                        int fillCollect = storageManager.maxStorage - storageManager.CurrentStorage;
+                        storageManager.CurrentStorage += fillCollect;
                         Debug.Log(fillCollect + " Resource toplandý.");
-                        resourceBar.fillAmount -= fillCollect*fillAmount;
+                        resourceBar.fillAmount -= fillCollect * fillAmount;
                         resourceCount -= fillCollect;
                     }
-                    if (resourceCount < collectAmount)
+                    else if (resourceCount < collectAmount)
                     {
-                        player.GetComponent<PlayerStorageManager>().CurrentStorage += resourceCount;
+                        storageManager.CurrentStorage += resourceCount;
                         Debug.Log(resourceCount + " Resource toplandý.");
                         resourceBar.fillAmount -= resourceCount * fillAmount;
                         resourceCount = 0;
                     }
                     else
                     {
-                        player.GetComponent<PlayerStorageManager>().CurrentStorage += collectAmount;
-                        Debug.Log(collectAmount+" Resource toplandý.");
-                        resourceCount -= collectAmount;
+                        storageManager.CurrentStorage += collectAmount;
+                        Debug.Log(collectAmount + " Resource toplandý.");
                         resourceBar.fillAmount -= collectAmount * fillAmount;
+                        resourceCount -= collectAmount;
                     }
-                    
-
                 }
                 else
                 {
                     Debug.Log("Kaynak bitti. Toplanamýyor.");
+                    resourceBar.fillAmount = 0;
                 }
             }
             else
