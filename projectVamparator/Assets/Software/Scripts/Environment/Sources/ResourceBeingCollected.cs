@@ -36,7 +36,7 @@ public class ResourceBeingCollected : MonoBehaviour
             }
         }
     }
-    public IEnumerator ResourceCollecting(GameObject player) // çalýþýyor, verilen saniye baþýnda range içinde resource toplama. (þuan deðil)
+    public IEnumerator ResourceCollecting(GameObject player) // çalýþýyor, verilen saniye baþýnda range içinde resource toplama.
     {
         int maxStorage = player.GetComponent<PlayerStorageManager>().maxStorage;
         int collectAmount = player.GetComponent<PlayerStorageManager>().collectAmount;
