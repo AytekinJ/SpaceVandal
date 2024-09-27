@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResourceBeingCollected : MonoBehaviour
 {
     [SerializeField] float radius = 5f;
     [SerializeField] LayerMask layerMask;
+    [SerializeField] Image resourceBar;
     private bool isPlayerNearby = false;
     Dictionary<string, int> resourceType = new Dictionary<string, int>();
     [SerializeField] public int resourceCount;
     [SerializeField] string[] containedResourceTypes; // iþlevsiz, konuþulacak
     [SerializeField] int[] containedResourceAmounts; // iþlevsiz, konuþulacak
+    float fillAmount;
     private void Start()
     {
         //for (int i = 0; i < containedResourceTypes.Length; i++)
@@ -20,6 +23,7 @@ public class ResourceBeingCollected : MonoBehaviour
         //    resourceType.Add(containedResourceTypes[i], containedResourceAmounts[i]);
         //}
         //Debug.Log("Resource ayarlamasý tamamlandý, kaynaklar eklendi.");
+        fillAmount = 1 / resourceCount;
     }
     void FixedUpdate() // circle casting
     {
@@ -34,7 +38,7 @@ public class ResourceBeingCollected : MonoBehaviour
             }
         }
     }
-    public IEnumerator ResourceCollecting(GameObject player) // çalýþýyor, verilen saniye baþýnda range içinde resource toplama.
+    public IEnumerator ResourceCollecting(GameObject player) // çalýþýyor, verilen saniye baþýnda range içinde resource toplama. (þuan deðil)
     {
         int maxStorage = player.GetComponent<PlayerStorageManager>().maxStorage;
         int collectAmount = player.GetComponent<PlayerStorageManager>().collectAmount;
@@ -49,19 +53,22 @@ public class ResourceBeingCollected : MonoBehaviour
                         int fillCollect = maxStorage - player.GetComponent<PlayerStorageManager>().CurrentStorage;
                         player.GetComponent<PlayerStorageManager>().CurrentStorage += fillCollect;
                         Debug.Log(fillCollect + " Resource toplandý.");
+                        resourceBar.fillAmount -= fillCollect*fillAmount;
                         resourceCount -= fillCollect;
                     }
                     if (resourceCount < collectAmount)
                     {
                         player.GetComponent<PlayerStorageManager>().CurrentStorage += resourceCount;
                         Debug.Log(resourceCount + " Resource toplandý.");
+                        resourceBar.fillAmount -= resourceCount * fillAmount;
                         resourceCount = 0;
                     }
                     else
                     {
-                        player.GetComponent<PlayerStorageManager>().CurrentStorage += player.GetComponent<PlayerStorageManager>().collectAmount;
+                        player.GetComponent<PlayerStorageManager>().CurrentStorage += collectAmount;
                         Debug.Log(collectAmount+" Resource toplandý.");
-                        resourceCount -= player.GetComponent<PlayerStorageManager>().collectAmount;
+                        resourceCount -= collectAmount;
+                        resourceBar.fillAmount -= collectAmount * fillAmount;
                     }
                     
 
